@@ -2,12 +2,12 @@ let options = {
   weekday: "short",
   month: "short",
   day: "numeric",
-  year: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
 };
 let today = new Date();
 let time = document.querySelector("#current-time");
-time.innerHTML = `${today.toLocaleDateString("en-US", options)}
-<br /> ${today.getHours()}:${today.getMinutes()}`;
+time.innerHTML = `${today.toLocaleDateString("en-US", options)}`;
 
 //challenge 2
 let cityinput = document.querySelector("#text-search");
@@ -112,20 +112,20 @@ let button = document.querySelector("button");
 button.addEventListener("click", getPosition);
 
 //challenge 3
-//let temperatureC = document.querySelector("#today-temp");
-///let temperatureF = Math.round((temperatureC.textContent * 9) / 5 + 32);
-//function changeUnitF(event) {
-//event.preventDefault();
-//temperatureC.innerHTML = temperatureF;
-//}
-//function changeUnitC(event) {
-//event.preventDefault();
-//temperatureC.innerHTML = Math.round(((temperatureF - 32) * 5) / 9);
-//}
-//let tempC = document.querySelector("#celsius");
-//let tempF = document.querySelector("#fahrenheit");
+let temperature = document.querySelector("#today-temp");
+let temperatureF = Math.round((temperature.textContent * 9) / 5 + 32);
+function changeUnitF(event) {
+  event.preventDefault();
+  temperature.innerHTML = temperatureF;
+}
+function changeUnitC(event) {
+  event.preventDefault();
+  temperature.innerHTML = Math.round(((temperatureF - 32) * 5) / 9);
+}
+let tempC = document.querySelector("#celsius");
+let tempF = document.querySelector("#fahrenheit");
 
-//tempF.addEventListener("click", changeUnitF);
-//tempC.addEventListener("click", changeUnitC);
+tempF.addEventListener("click", changeUnitF);
+tempC.addEventListener("click", changeUnitC);
 
 //homework week 05 API

@@ -10,30 +10,32 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Merienda:wght@700&family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Merienda:wght@700&family=Special+Elite&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-</head>
+  </head>
   <body>
     <div class="cover">
-
-      <div class="container">   
-        
+      <div class="container">
         <form id="city-search">
           <i class="fas fa-map-marker-alt"></i>
-          <input type="text" placeholder="Enter a city" id="text-search"/>
+          <input type="text" placeholder="Enter a city" id="text-search" />
           <i class="fas fa-search"></i>
         </form>
         <button>📍Current</button>
         <div class="today">
-          <h3 id ="city-name">Hanoi, Vietnam </h3>
-          <h3 id ="current-time">Tuesday, 4:30 pm ICT</h3>
+          <h3 id="city-name">Hanoi, Vietnam</h3>
+          <h3 id="current-time">Tuesday, 4:30 pm ICT</h3>
           <div class="row">
-            <div class="col-6"><span id ="today-temp">23</span>
+            <div class="col-6">
+              <span id="today-temp">23</span>
               <span class="tempUnit">
-              <a id="celsius" href ="#">°C</a> | 
-              <a id="fahrenheit"href="#">°F</a>
+                <a id="celsius" href="#">°C</a> |
+                <a id="fahrenheit" href="#">°F</a>
               </span>
             </div>
             <div class="col-6" id="today-icon">🌤</div>
@@ -42,54 +44,52 @@
         <div class="today-more">
           <div class="row">
             <div class="col-6">
-              <h4 id="today-temp-range">🌡 : 23°-15°</h4>
-              <h4 id="today-humd">💧 : 39%rh</h4>
-              <h4 id ="today-wind">💨: 10km/h</h4>
+              <h5 id="today-temp-range">🌡 : 23°-15°</h5>
+              <h5 id="today-humd">💧 : 39%rh</h5>
+              <h5 id="today-wind">💨: 10km/h</h5>
             </div>
             <div class="col-6">
-              <h4 id="today-description">cloudy</h4>
-              <h4>
+              <h5 id="today-description">cloudy</h5>
+              <h5>
                 US AQI: 66
                 <i class="far fa-smile-beam"></i>
-              </h4>
+              </h5>
             </div>
           </div>
         </div>
         <hr />
-        <div>
-          <div class="row">
-            <div class="col">
-              <h4>Wed</h4>
-              <h4>🌤</h4>
-              <h4>23°-15°</h4>
-            </div>
-            <div class="col">
-              <h4>Thu</h4>
-              <h4>🌤</h4>
-              <h4>25°-18°</h4>
-            </div>
-            <div class="col">
-              <h4>Fri</h4>
-              <h4>🌤</h4>
-              <h4>22°-16°</h4>
-            </div>
-            <div class="col">
-              <h4>Sat</h4>
-              <h4>🌤</h4>
-              <h4>23°-17°</h4>
-            </div>
-            <div class="col">
-              <h4>Sun</h4>
-              <h4>☁</h4>
-              <h4>23°-17°</h4>
-            </div>
+        <div class="row" class="prediction">
+          <div class="col">
+            <h5>Wed</h5>
+            <h5>🌤</h5>
+            <h5>23°-15°</h5>
+          </div>
+          <div class="col">
+            <h5>Thu</h5>
+            <h5>🌤</h5>
+            <h5>25°-18°</h5>
+          </div>
+          <div class="col">
+            <h5>Fri</h5>
+            <h5>🌤</h5>
+            <h5>22°-16°</h5>
+          </div>
+          <div class="col">
+            <h5>Sat</h5>
+            <h5>🌤</h5>
+            <h5>23°-17°</h5>
+          </div>
+          <div class="col">
+            <h5>Sun</h5>
+            <h5>☁</h5>
+            <h5>23°-17°</h5>
           </div>
           <div class="Air-visual"></div>
-          <hr />
-          <p>"Make each day a masterpiece" </p> <br />
-          - John Wooden-
-          <hr />
+        </div>
+        <hr />
+        <p>"Make each day a masterpiece"<br />- John Wooden-</p>
 
+        <hr />
         <ul>
           <li><a href="">News </a></li>
           <li><a href="">Music </a></li>
@@ -102,11 +102,11 @@
         ></script>
       </div>
     </div>
-    <span>
-      <a src="https://github.com/HuongNguyen1989/weather" target ="_blank">Open-source code 
+    <span class="github-link">
+      <a href="https://github.com/HuongNguyen1989/weather" target="_blank"
+        >Open-source code
       </a>
       by Huong Nguyen
     </span>
-    
   </body>
 </html>
