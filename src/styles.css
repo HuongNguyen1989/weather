@@ -1,66 +1,65 @@
 input {
   outline: none;
 }
-button {
-  display: block;
-  color: aqua;
-  background: transparent;
-  border: 1px solid rgb(148, 146, 146);
-  font-size: 14px;
-}
-.container {
-  margin: 5px auto;
-  border-radius: 20px;
-  background: #385170;
-  color: white;
-  padding: 5px;
-}
-#city-search {
-  border-radius: 25px;
-  padding: 10px;
-  border: 1px solid rgb(131, 128, 128);
-  margin: 10px auto;
-  font-size: 10px;
-}
-#text-search {
-  font-size: 16px;
-  border: none;
-  background-color: transparent;
-  width: 90%;
-  color: white;
-}
-.today {
-  font-size: 60px;
-  font-weight: bolder;
-  padding-left: 20px;
-}
-.cover {
-  width: 500px;
-  margin: 0 auto;
-  text-align: center;
-}
-.today-more {
-  font-weight: normal;
-}
-li {
-  list-style: none;
-  display: inline;
-  padding: 0 50px;
-  color: black;
-}
 p {
-  color: aqua;
   font-size: 20px;
   font-style: italic;
   font-family: "Special Elite", cursive;
 }
-.tempUnit {
-  display: inline-block;
+body {
+  background-image: url("hanoi2.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+a {
+  text-decoration: none;
+}
+#city-search {
+  border-radius: 25px;
+  padding: 10px;
+  border: 1px solid rgb(179, 179, 245);
+  margin: 10px auto;
   font-size: 16px;
-  vertical-align: 40px;
+}
+#text-search {
+  font-size: 16px;
+  color: white;
+  border: none;
+  background-color: transparent;
+  width: 90%;
+}
+#today-temp {
+  font-size: 60px;
+  font-weight: bolder;
+  padding-left: 20px;
+}
+#today-description {
+  font-size: 20px;
+  font-weight: bolder;
+}
+#cover {
+  color: white;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+  background-image: url("day-cover.jpeg");
+  margin-top: 30px;
+  padding: 5px;
+  border-radius: 20px;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.tempUnit {
+  vertical-align: 30px;
+  font-size: 16px;
 }
 .github-link {
   text-align: center;
   display: block;
   margin: 0 auto;
+}
+.active {
+  color: white;
+  font-weight: bold;
 }
