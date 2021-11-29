@@ -86,6 +86,7 @@ function changecover(timesofday) {
       "url('src/night-cover.jpg')";
   }
 }
+
 //weather forcast in HTML-muilfy input by JS
 
 function displayForcast() {
