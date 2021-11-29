@@ -110,3 +110,4 @@ function displayForcast() {
   forecastHTML = forecastHTML + `</div>`;
   forecastElement.innerHTML = forecastHTML;
 }
+displayForcast();
