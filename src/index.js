@@ -91,31 +91,45 @@ function changecover(timesofday) {
 
 //DISPLAY FORCAST
 //weather forcast in HTML-muilfy input by JS
+
 function displayForecast(response) {
   console.log(response);
   let forecastElement = document.querySelector(`#forecast`);
+  let forecast = response.data.daily;
+
+  console.log(forecast);
   let forecastHTML = `<div class ="row">`;
-  let days = ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
-  days.forEach(function (day) {
-    forecastHTML =
-      forecastHTML +
-      `<div class="col-2">
-          <div class="forecast-day">${day}</div>
+
+  forecast.forEach(function (dayForecast, index) {
+    if (index < 6) {
+      let date = new Date(dayForecast.dt * 1000);
+      weekday = date.toLocaleDateString("en-US", { weekday: "short" });
+      forecastHTML =
+        forecastHTML +
+        `<div class="col-2">
+          <div class="forecast-day">${weekday}</div>
           <img
-          src="http://openweathermap.org/img/wn/50d@2x.png"
+          src="http://openweathermap.org/img/wn/${
+            dayForecast.weather[0].icon
+          }@2x.png"
           alt=""
           width="42">
           <div class="forecast-temp">
-            <span class="forecast-temp-max"> 18° </span>
-            <span class="forecast-temp-min"> 15° </span>
+            <span class="forecast-temp-max"> ${Math.round(
+              dayForecast.temp.max
+            )}° </span>
+            <span class="forecast-temp-min"> ${Math.round(
+              dayForecast.temp.max
+            )}° </span>
           </div>
     </div>`;
+    }
   });
   forecastHTML = forecastHTML + `</div>`;
   forecastElement.innerHTML = forecastHTML;
 }
 
 function getForecast(coord) {
-  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&appid=${apiKey}&Units=metric`;
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&appid=${apiKey}&units=metric`;
   axios.get(apiUrl).then(displayForecast);
 }
