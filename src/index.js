@@ -1,3 +1,4 @@
+let apiKey = "7e62f7501b593a16608f7f0c6a1d755f";
 let time = document.querySelector("#current-time");
 let temperature = document.querySelector("#today-temp");
 let today = new Date();
@@ -11,7 +12,6 @@ let options = {
 time.innerHTML = `${today.toLocaleDateString("en-US", options)}`;
 
 function showToday(response) {
-  console.log(response);
   let city = document.querySelector("#city-name");
   let icon = document.querySelector("#icon");
 
@@ -36,12 +36,14 @@ function showToday(response) {
   humd.innerHTML = `💧 : ${response.data.main.humidity}%`;
   wind.innerHTML = `💨: ${response.data.wind.speed}km/h`;
 
+  //response day or night time of city
   let iconsearch = response.data.weather[0].icon;
   changecover(iconsearch.charAt(2));
+  // response coord of city
+  getForecast(response.data.coord);
 }
 
 function citysearch(city) {
-  let apiKey = "7e62f7501b593a16608f7f0c6a1d755f";
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
   axios.get(apiUrl).then(showToday);
 }
@@ -87,9 +89,10 @@ function changecover(timesofday) {
   }
 }
 
+//DISPLAY FORCAST
 //weather forcast in HTML-muilfy input by JS
-
-function displayForcast() {
+function displayForecast(response) {
+  console.log(response);
   let forecastElement = document.querySelector(`#forecast`);
   let forecastHTML = `<div class ="row">`;
   let days = ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
@@ -111,4 +114,8 @@ function displayForcast() {
   forecastHTML = forecastHTML + `</div>`;
   forecastElement.innerHTML = forecastHTML;
 }
-displayForcast();
+
+function getForecast(coord) {
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&appid=${apiKey}&Units=metric`;
+  axios.get(apiUrl).then(displayForecast);
+}
