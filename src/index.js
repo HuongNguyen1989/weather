@@ -13,7 +13,7 @@ time.innerHTML = `${today.toLocaleDateString("en-US", options)}`;
 function showToday(response) {
   console.log(response);
   let city = document.querySelector("#city-name");
-  let icon = document.querySelector("#today-icon");
+  let icon = document.querySelector("#icon");
 
   let description = document.querySelector("#today-description");
   let temprange = document.querySelector("#today-temp-range");
@@ -25,7 +25,11 @@ function showToday(response) {
   city.innerHTML = `${response.data.name}, ${response.data.sys.country}`;
   temperature.innerHTML = Math.round(response.data.main.temp);
   description.innerHTML = response.data.weather[0].main;
-  icon.innerHTML = `<img src ="${`http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`}">`; //icon
+  icon.setAttribute(
+    "src",
+    `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
+  );
+  icon.setAttribute("alt", response.data.weather[0].description);
   temprange.innerHTML = `🌡 : ${Math.round(
     response.data.main.temp_min
   )}°-${Math.round(response.data.main.temp_max)}°`;
@@ -72,7 +76,7 @@ function changeUnitC(event) {
 tempF.addEventListener("click", changeUnitF);
 tempC.addEventListener("click", changeUnitC);
 
-// change backgound image
+// change background image
 function changecover(timesofday) {
   if (timesofday === "d") {
     document.getElementById("cover").style.backgroundImage =
@@ -81,4 +85,28 @@ function changecover(timesofday) {
     document.getElementById("cover").style.backgroundImage =
       "url('src/night-cover.jpg')";
   }
+}
+//weather forcast in HTML-muilfy input by JS
+
+function displayForcast() {
+  let forecastElement = document.querySelector(`#forecast`);
+  let forecastHTML = `<div class ="row">`;
+  let days = ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+  days.forEach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      `<div class="col-2">
+          <div class="forecast-day">${day}</div>
+          <img
+          src="http://openweathermap.org/img/wn/50d@2x.png"
+          alt=""
+          width="42">
+          <div class="forecast-temp">
+            <span class="forecast-temp-max"> 18° </span>
+            <span class="forecast-temp-min"> 15° </span>
+          </div>
+    </div>`;
+  });
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
 }
