@@ -44,7 +44,7 @@ a {
   max-width: 400px;
   margin: 0 auto;
   text-align: center;
-  background-image: url("day-cover.jpeg");
+  background-image: url("day-cover.jpg");
   margin-top: 30px;
   padding: 5px;
   border-radius: 20px;
@@ -62,5 +62,11 @@ a {
 }
 .active {
   color: white;
+  font-weight: bold;
+}
+#forecast.forecast-temp-max {
+  font-weight: bold;
+}
+.forecast-temp-max {
   font-weight: bold;
 }

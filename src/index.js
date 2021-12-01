@@ -1,6 +1,6 @@
 let apiKey = "7e62f7501b593a16608f7f0c6a1d755f";
 let time = document.querySelector("#current-time");
-let temperature = document.querySelector("#today-temp");
+
 let today = new Date();
 let options = {
   weekday: "short",
@@ -14,16 +14,16 @@ time.innerHTML = `${today.toLocaleDateString("en-US", options)}`;
 function showToday(response) {
   let city = document.querySelector("#city-name");
   let icon = document.querySelector("#icon");
-
+  let tempElement = document.querySelector("#today-temp");
   let description = document.querySelector("#today-description");
   let temprange = document.querySelector("#today-temp-range");
   let humd = document.querySelector("#today-humd");
   let wind = document.querySelector("#today-wind");
 
-  celsiustemperature = Math.round(response.data.main.temp);
+  celsiustemp = Math.round(response.data.main.temp);
 
   city.innerHTML = `${response.data.name}, ${response.data.sys.country}`;
-  temperature.innerHTML = Math.round(response.data.main.temp);
+  tempElement.innerHTML = Math.round(response.data.main.temp);
   description.innerHTML = response.data.weather[0].main;
   icon.setAttribute(
     "src",
@@ -57,27 +57,6 @@ form.addEventListener("submit", handlesubmit);
 
 citysearch("hanoi");
 
-//change temp C to F
-celsiustemperature = null;
-let tempF = document.querySelector("#fahrenheit");
-let tempC = document.querySelector("#celsius");
-
-function changeUnitF(event) {
-  event.preventDefault();
-  celsius.classList.remove("active");
-  fahrenheit.classList.add("active");
-  temperature.innerHTML = Math.round((temperature.textContent * 9) / 5 + 32);
-}
-
-function changeUnitC(event) {
-  event.preventDefault();
-  fahrenheit.classList.remove("active");
-  celsius.classList.add("active");
-  temperature.innerHTML = celsiustemperature;
-}
-tempF.addEventListener("click", changeUnitF);
-tempC.addEventListener("click", changeUnitC);
-
 // change background image
 function changecover(timesofday) {
   if (timesofday === "d") {
@@ -85,7 +64,7 @@ function changecover(timesofday) {
       "url('src/day-cover.jpg')";
   } else {
     document.getElementById("cover").style.backgroundImage =
-      "url('src/night-cover.jpg')";
+      "url('src/night-cover.jpeg')";
   }
 }
 
@@ -93,13 +72,9 @@ function changecover(timesofday) {
 //weather forcast in HTML-muilfy input by JS
 
 function displayForecast(response) {
-  console.log(response);
   let forecastElement = document.querySelector(`#forecast`);
   let forecast = response.data.daily;
-
-  console.log(forecast);
   let forecastHTML = `<div class ="row">`;
-
   forecast.forEach(function (dayForecast, index) {
     if (index < 6) {
       let date = new Date(dayForecast.dt * 1000);
@@ -115,21 +90,80 @@ function displayForecast(response) {
           alt=""
           width="42">
           <div class="forecast-temp">
+          <div>
             <span class="forecast-temp-max"> ${Math.round(
               dayForecast.temp.max
-            )}° </span>
+            )}</span>°
+          </div>
+          <div>
             <span class="forecast-temp-min"> ${Math.round(
-              dayForecast.temp.max
-            )}° </span>
+              dayForecast.temp.min
+            )}</span>°
+          </div>
           </div>
     </div>`;
     }
   });
   forecastHTML = forecastHTML + `</div>`;
   forecastElement.innerHTML = forecastHTML;
+  gettempforcast();
 }
 
 function getForecast(coord) {
   let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&appid=${apiKey}&units=metric`;
   axios.get(apiUrl).then(displayForecast);
 }
+
+//change temp C to F
+celsiustemp = null;
+cmax = [];
+cmin = [];
+let tempElement = document.querySelector("#today-temp");
+
+function gettempforcast() {
+  let tempmax = document.querySelectorAll(".forecast-temp-max");
+  let tempmin = document.querySelectorAll(".forecast-temp-min");
+  tempmin.forEach(function (item, index) {
+    cmin[index] = Number(item.textContent);
+  });
+  tempmax.forEach(function (item, index) {
+    cmax[index] = Number(item.textContent);
+  });
+}
+
+function changeUnitF(event) {
+  let tempmax = document.querySelectorAll(".forecast-temp-max");
+  let tempmin = document.querySelectorAll(".forecast-temp-min");
+  event.preventDefault();
+  celsius.classList.remove("active");
+  fahrenheit.classList.add("active");
+  tempElement.innerHTML = Math.round((celsiustemp * 9) / 5 + 32);
+  tempmax.forEach(function (item, index) {
+    item.innerHTML = Math.round((cmax[index] * 9) / 5 + 32);
+  });
+  tempmin.forEach(function (item, index) {
+    item.innerHTML = Math.round((cmin[index] * 9) / 5 + 32);
+  });
+}
+
+function changeUnitC(event) {
+  event.preventDefault();
+  fahrenheit.classList.remove("active");
+  celsius.classList.add("active");
+  let tempElement = document.querySelector("#today-temp");
+  tempElement.innerHTML = celsiustemp;
+
+  let tempmax = document.querySelectorAll(".forecast-temp-max");
+  let tempmin = document.querySelectorAll(".forecast-temp-min");
+  tempmax.forEach(function (item, index) {
+    item.innerHTML = cmax[index];
+  });
+  tempmin.forEach(function (item, index) {
+    item.innerHTML = cmin[index];
+  });
+}
+let tempF = document.querySelector("#fahrenheit");
+tempF.addEventListener("click", changeUnitF);
+
+let tempC = document.querySelector("#celsius");
+tempC.addEventListener("click", changeUnitC);
