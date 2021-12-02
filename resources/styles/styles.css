@@ -7,7 +7,7 @@ p {
   font-family: "Special Elite", cursive;
 }
 body {
-  background-image: url("background.jpg");
+  background-image: url("../images/background.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -40,7 +40,7 @@ body {
   max-width: 400px;
   margin: 0 auto;
   text-align: center;
-  background-image: url("day-cover.jpg");
+  background-image: url("../images/day-cover.jpg");
   margin-top: 30px;
   padding: 5px;
   border-radius: 20px;

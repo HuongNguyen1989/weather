@@ -1,23 +1,26 @@
-let apiKey = "7e62f7501b593a16608f7f0c6a1d755f";
-let time = document.querySelector("#current-time");
+let celsiustemp = null;
+let cmax = [];
+let cmin = [];
 
-let today = new Date();
-let options = {
-  weekday: "short",
-  month: "short",
-  day: "numeric",
-  hour: "2-digit",
-  minute: "2-digit",
-};
-time.innerHTML = `${today.toLocaleDateString("en-US", options)}`;
+function init() {
+  addEventHandlers();
 
-//DISPLAY FORCAST
-//weather forcast in HTML-muilfy input by JS
+  // Display current time
+  const timeElement = document.querySelector("#current-time");
+  timeElement.innerHTML = convertDateToString(new Date());
 
+  // Display current weather
+  displayWeatherOfCity('Hanoi');
+}
+
+/**
+ * Display forecast data to document
+ * @param {Weather} response 
+ */
 function displayForecast(response) {
-  let forecastElement = document.querySelector(`#forecast`);
-  let forecast = response.data.daily;
-  let forecastHTML = `<div class ="row">`;
+  const forecastElement = document.querySelector(`#forecast`);
+  const forecast = response.daily;
+  const forecastHTML = `<div class ="row">`;
   forecast.forEach(function (dayForecast, index) {
     if (index < 6) {
       let date = new Date(dayForecast.dt * 1000);
@@ -50,71 +53,9 @@ function displayForecast(response) {
 
   forecastHTML = forecastHTML + `</div>`;
   forecastElement.innerHTML = forecastHTML;
-  gettempforcast();
-}
-
-function getForecast(coord) {
-  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&appid=${apiKey}&units=metric`;
-  axios.get(apiUrl).then(displayForecast);
-}
-function showToday(response) {
-  let city = document.querySelector("#city-name");
-  let icon = document.querySelector("#icon");
-  let tempElement = document.querySelector("#today-temp");
-  let description = document.querySelector("#today-description");
-  let temprange = document.querySelector("#today-temp-range");
-  let humd = document.querySelector("#today-humd");
-  let wind = document.querySelector("#today-wind");
-
-  celsiustemp = Math.round(response.data.main.temp);
-
-  city.innerHTML = `${response.data.name}, ${response.data.sys.country}`;
-  tempElement.innerHTML = Math.round(response.data.main.temp);
-  description.innerHTML = response.data.weather[0].main;
-  icon.setAttribute(
-    "src",
-    `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
-  );
-  icon.setAttribute("alt", response.data.weather[0].description);
-  temprange.innerHTML = `🌡 : ${Math.round(
-    response.data.main.temp_min
-  )}°-${Math.round(response.data.main.temp_max)}°`;
-  humd.innerHTML = `💧 : ${response.data.main.humidity}%`;
-  wind.innerHTML = `💨: ${response.data.wind.speed}km/h`;
-
-  //response day or night time of city
-  let iconsearch = response.data.weather[0].icon;
-  changecover(iconsearch.charAt(2));
-  // response coord of city
-  getForecast(response.data.coord);
-}
-
-function citysearch(city) {
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-  axios.get(apiUrl).then(showToday);
-}
-
-// change background image
-function changecover(timesofday) {
-  if (timesofday === "d") {
-    document.getElementById("cover").style.backgroundImage =
-      "url('src/day-cover.jpg')";
-  } else {
-    document.getElementById("cover").style.backgroundImage =
-      "url('src/night-cover.jpeg')";
-  }
-  fahrenheit.classList.remove("active");
-  celsius.classList.add("active");
-}
-
-//change temp C to F
-let celsiustemp = null;
-let cmax = [];
-let cmin = [];
-
-function gettempforcast() {
-  let tempmax = document.querySelectorAll(".forecast-temp-max");
-  let tempmin = document.querySelectorAll(".forecast-temp-min");
+  
+  const tempmax = document.querySelectorAll(".forecast-temp-max");
+  const tempmin = document.querySelectorAll(".forecast-temp-min");
   tempmin.forEach(function (item, index) {
     cmin[index] = Number(item.textContent);
   });
@@ -123,20 +64,67 @@ function gettempforcast() {
   });
 }
 
+/**
+ * Display today weather data to document
+ * @param {City} response 
+ */
+function showToday(response) {
+  const city = document.querySelector("#city-name");
+  const icon = document.querySelector("#icon");
+  const tempElement = document.querySelector("#today-temp");
+  const description = document.querySelector("#today-description");
+  const temprange = document.querySelector("#today-temp-range");
+  const humd = document.querySelector("#today-humd");
+  const wind = document.querySelector("#today-wind");
+
+  celsiustemp = Math.round(response.main.temp);
+
+  city.innerHTML = `${response.name}, ${response.sys.country}`;
+  tempElement.innerHTML = Math.round(response.main.temp);
+  description.innerHTML = response.weather[0].main;
+  icon.setAttribute(
+    "src",
+    `http://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`
+  );
+  icon.setAttribute("alt", response.weather[0].description);
+  temprange.innerHTML = `🌡 : ${Math.round(
+    response.main.temp_min
+  )}°-${Math.round(response.main.temp_max)}°`;
+  humd.innerHTML = `💧 : ${response.main.humidity}%`;
+  wind.innerHTML = `💨: ${response.wind.speed}km/h`;
+
+  //response day or night time of city
+  let iconsearch = response.weather[0].icon;
+  changecover(iconsearch.charAt(2));
+}
+
+// change background image
+function changecover(timesofday) {
+  if (timesofday === "d") {
+    document.getElementById("cover").style.backgroundImage =
+      "url('resources/images/day-cover.jpg')";
+  } else {
+    document.getElementById("cover").style.backgroundImage =
+      "url('resources/images/night-cover.jpeg')";
+  }
+  fahrenheit.classList.remove("active");
+  celsius.classList.add("active");
+}
+
 function changeUnitF(event) {
   event.preventDefault();
   celsius.classList.remove("active");
   fahrenheit.classList.add("active");
-  let tempElement = document.querySelector("#today-temp");
-  let tempmax = document.querySelectorAll(".forecast-temp-max");
-  let tempmin = document.querySelectorAll(".forecast-temp-min");
+  const tempElement = document.querySelector("#today-temp");
+  const tempmax = document.querySelectorAll(".forecast-temp-max");
+  const tempmin = document.querySelectorAll(".forecast-temp-min");
 
-  tempElement.innerHTML = Math.round((celsiustemp * 9) / 5 + 32);
+  tempElement.innerHTML = Math.round(convertCtoF(celsiustemp));
   tempmax.forEach(function (item, index) {
-    item.innerHTML = Math.round((cmax[index] * 9) / 5 + 32);
+    item.innerHTML = Math.round(convertCtoF(cmax[index]));
   });
   tempmin.forEach(function (item, index) {
-    item.innerHTML = Math.round((cmin[index] * 9) / 5 + 32);
+    item.innerHTML = Math.round(convertCtoF(cmin[index]));
   });
 }
 
@@ -145,9 +133,9 @@ function changeUnitC(event) {
   fahrenheit.classList.remove("active");
   celsius.classList.add("active");
 
-  let tempElement = document.querySelector("#today-temp");
-  let tempmax = document.querySelectorAll(".forecast-temp-max");
-  let tempmin = document.querySelectorAll(".forecast-temp-min");
+  const tempElement = document.querySelector("#today-temp");
+  const tempmax = document.querySelectorAll(".forecast-temp-max");
+  const tempmin = document.querySelectorAll(".forecast-temp-min");
 
   tempElement.innerHTML = celsiustemp;
   tempmax.forEach(function (item, index) {
@@ -158,18 +146,30 @@ function changeUnitC(event) {
   });
 }
 
-function handlesubmit(event) {
-  event.preventDefault();
-  let cityinput = document.querySelector("#text-search");
-  citysearch(cityinput.value);
+function addEventHandlers() {
+  function handlesubmit(event) {
+    event.preventDefault();
+    const cityinput = document.querySelector("#text-search");
+    displayWeatherOfCity(cityinput.value);
+  }
+
+  const form = document.querySelector("#city-search");
+  form.addEventListener("submit", handlesubmit);
+  
+  const tempF = document.querySelector("#fahrenheit");
+  tempF.addEventListener("click", changeUnitF);
+  
+  const tempC = document.querySelector("#celsius");
+  tempC.addEventListener("click", changeUnitC);
 }
-let form = document.querySelector("#city-search");
-form.addEventListener("submit", handlesubmit);
 
-let tempF = document.querySelector("#fahrenheit");
-tempF.addEventListener("click", changeUnitF);
+function displayWeatherOfCity(city) {
+  getCityByName(city)
+    .then(function (cityData) {
+      showToday(cityData);
+      return getForecastByLocation(cityData.coord);
+    })
+    .then(displayForecast);
+}
 
-let tempC = document.querySelector("#celsius");
-tempC.addEventListener("click", changeUnitC);
-
-citysearch("hanoi");
+init();
