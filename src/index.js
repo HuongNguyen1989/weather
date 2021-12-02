@@ -20,11 +20,11 @@ function init() {
 function displayForecast(response) {
   const forecastElement = document.querySelector(`#forecast`);
   const forecast = response.daily;
-  const forecastHTML = `<div class ="row">`;
+  let forecastHTML = `<div class ="row">`;
   forecast.forEach(function (dayForecast, index) {
     if (index < 6) {
       let date = new Date(dayForecast.dt * 1000);
-      weekday = date.toLocaleDateString("en-US", { weekday: "short" });
+      const weekday = date.toLocaleDateString("en-US", { weekday: "short" });
       forecastHTML =
         forecastHTML +
         `<div class="col-2">
